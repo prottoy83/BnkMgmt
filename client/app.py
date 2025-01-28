@@ -1,7 +1,8 @@
-import socket 
+from conn import connectS
+from auth import loginBox
 
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client.connect(('127.0.0.1', 8369))
+method, username, password = loginBox()
 
-client.send('Requesting to connect'.encode())
-print(client.recv(1024).decode())
+authData = [username, password]
+
+connectS(method, authData)

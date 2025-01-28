@@ -10,5 +10,9 @@ server.listen()
 
 while True:
     client, addr = server.accept()
+
+    
+
     print(client.recv(1024).decode())
+    
     client.send('Server SENT YOU THIS'.encode())

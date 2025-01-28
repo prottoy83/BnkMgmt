@@ -1,5 +1,5 @@
 import socket
-
+import json
 
 PORT = 8369
 
@@ -11,8 +11,11 @@ server.listen()
 while True:
     client, addr = server.accept()
 
+    authData = client.recv(1024).decode()
+    json_ad = json.loads(authData)
+    print(json_ad["method"])
     
-
-    print(client.recv(1024).decode())
+    if(json_ad["method"] == 'login'):
+        response = "Logged in with cred\nUsername:"+json_ad["username"]+"\nPassword:"+json_ad["password"]
+        client.send(response.encode())
     
-    client.send('Server SENT YOU THIS'.encode())

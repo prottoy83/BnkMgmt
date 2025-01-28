@@ -1,8 +1,12 @@
 from conn import connectS
 from auth import loginBox
+import json
 
 method, username, password = loginBox()
 
-authData = [username, password]
+authData = {"method": method,
+            "username": username,
+            "password": password}
+authData = json.dumps(authData)
 
-connectS(method, authData)
+connectS(authData.encode())

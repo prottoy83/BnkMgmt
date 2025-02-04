@@ -10,3 +10,6 @@ authData = {"method": method,
 authData = json.dumps(authData)
 
 connectS(authData.encode())
+
+authTF = True
+

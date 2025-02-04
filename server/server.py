@@ -1,5 +1,6 @@
 import socket
 import json
+from dbit import *
 
 PORT = 8369
 HOST = '127.0.0.1'
@@ -14,7 +15,6 @@ while True:
         client, addr = server.accept()
         print(f"Connection established with {addr}")
         
-
         auth_data = client.recv(1024).decode()
         try:
             json_data = json.loads(auth_data)
@@ -27,12 +27,27 @@ while True:
         if method == "login":
             username = json_data.get("username", "Unknown")
             password = json_data.get("password", "Unknown")
-            response = {
-                "status": "success",
-                "message": "Logged in successfully",
-                "username": username,
-                "password": password  
-            }
+
+            userID = compUsername(username)
+            if(userID == 0):
+                response = {
+                    "status": "Failed",
+                    "Message": "User doesn't exist" 
+                }
+
+            else:
+                uName, uAddress, uContact = getInfo(userID)
+                response = {
+                    "status": "success",
+                    "message": "Logged in successfully",
+                    "username": username,
+                    "Name": uName,
+                    "Address": uAddress,
+                    "Phone No": uContact  
+                }
+
+
+
         elif method == "signup":
             response = {"status": "error", "message": "Signup not implemented yet"}
         else:
